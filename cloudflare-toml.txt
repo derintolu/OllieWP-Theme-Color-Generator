@@ -1,0 +1,14 @@
+# Headers for Cloudflare Pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self' cdnjs.cloudflare.com; script-src 'self' 'unsafe-eval' 'unsafe-inline' cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'self'; font-src 'self' cdnjs.cloudflare.com; object-src 'none'; media-src 'self'; frame-src 'self';
+  Cache-Control: public, max-age=3600
+  
+# Cache static assets for longer
+*.js
+  Cache-Control: public, max-age=86400
+*.css
+  Cache-Control: public, max-age=86400

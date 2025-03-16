@@ -1,0 +1,5 @@
+{
+  "always_use_https": true,
+  "http2": true,
+  "singlePageApp": true
+}
