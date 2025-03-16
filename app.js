@@ -3,7 +3,7 @@ const { useState, useEffect } = React;
 
 const ThemeGenerator = () => {
   const [primaryColor, setPrimaryColor] = useState('#5344F4');
-  const [themeName, setThemeName] = useState('Custom Theme');
+  const [themeName, setThemeName] = useState('My Palette');
   const [theme, setTheme] = useState({});
   const [copied, setCopied] = useState('');
 
@@ -415,7 +415,7 @@ const ThemeGenerator = () => {
     const filename = themeName.toLowerCase().replace(/[^a-z0-9]/g, '-');
     a.download = `${filename}.json`;
     
-    document.body.appendChild(a);
+    document.body.appendChild(a);<p className="text-gray-300 mt-2">Generate a color palette from a single color based on <a href="https://olliewp.com/docs/ollie-block-theme/ollie-color-palette/" className="text-blue-400 hover:text-blue-300 font-medium underline" style={{ textShadow: "0 0 5px rgba(59, 130, 246, 0.7)" }}>Ollie's color system.</a> </p>
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
@@ -442,7 +442,7 @@ const ThemeGenerator = () => {
       <div className="p-6">
         <div className="flex flex-col sm:flex-row gap-6 mb-8">
           <div className="flex-1">
-            <label className="block mb-2 font-medium">Theme Name</label>
+            <label className="block mb-2 font-medium">Color Palette Name:</label>
             <input
               type="text"
               value={themeName}
