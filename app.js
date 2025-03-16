@@ -435,8 +435,8 @@ const ThemeGenerator = () => {
   return (
     <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="bg-gray-800 text-white p-6">
-        <h1 className="text-3xl font-bold">OllieWP Theme Generator</h1>
-        <p className="text-gray-300 mt-2">Generate a complete theme from a single color</p>
+        <h1 className="text-3xl font-bold">OllieWP Color Palette Generator</h1>
+        <p className="text-gray-300 mt-2">Generate a color palette from a single color based on <a href="https://olliewp.com/docs/ollie-block-theme/ollie-color-palette/" className="text-blue-400 hover:text-blue-300 font-medium underline" style={{ textShadow: "0 0 5px rgba(59, 130, 246, 0.7)" }}>Ollie's color system.</a> </p>
       </div>
       
       <div className="p-6">
