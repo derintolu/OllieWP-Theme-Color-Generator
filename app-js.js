@@ -1,12 +1,12 @@
+// Theme Generator App
 const { useState, useEffect } = React;
 
 const ThemeGenerator = () => {
   const [primaryColor, setPrimaryColor] = useState('#5344F4');
   const [theme, setTheme] = useState({});
   const [copied, setCopied] = useState('');
-  const [showTailwindConfig, setShowTailwindConfig] = useState(false);
 
-  // Helper function to convert hex to RGB
+  // Convert hex to RGB
   const hexToRgb = (hex) => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
@@ -16,7 +16,7 @@ const ThemeGenerator = () => {
     } : null;
   };
 
-  // Helper function to convert RGB to HSL
+  // Convert RGB to HSL
   const rgbToHsl = (r, g, b) => {
     r /= 255;
     g /= 255;
@@ -45,7 +45,7 @@ const ThemeGenerator = () => {
     return { h: h * 360, s: s * 100, l: l * 100 };
   };
 
-  // Helper function to convert HSL to RGB
+  // Convert HSL to RGB
   const hslToRgb = (h, s, l) => {
     h /= 360;
     s /= 100;
@@ -80,7 +80,7 @@ const ThemeGenerator = () => {
     };
   };
 
-  // Helper function to convert RGB to hex
+  // Convert RGB to hex
   const rgbToHex = (r, g, b) => {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
   };
@@ -90,7 +90,7 @@ const ThemeGenerator = () => {
     return /^#?([0-9A-F]{3}){1,2}$/i.test(hex);
   };
 
-  // Generate a theme based on the formula
+  // Generate theme based on primary color
   const generateTheme = (baseHex) => {
     if (!isValidHex(baseHex)) {
       return {};
@@ -106,92 +106,83 @@ const ThemeGenerator = () => {
     
     // Calculate new theme - all colors relative to the base color
     const newTheme = {
-      primary: formattedHex,
-      
-      // Lighter version of primary (tint)
-      primaryAccent: (() => {
-        const h = baseHsl.h;
-        const s = Math.max(baseHsl.s - 10, 10); // Slightly desaturated
-        const l = Math.min(baseHsl.l + 30, 95); // Much lighter
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Color shift toward analogous color (hue shift)
-      primaryAlt: (() => {
-        const h = (baseHsl.h + 15) % 360; // Shift hue slightly
-        const s = Math.min(baseHsl.s + 5, 100); // Slightly more saturated
-        const l = Math.min(baseHsl.l + 15, 90); // Lighter
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Darker version of primary (shade)
-      primaryAltAccent: (() => {
-        const h = baseHsl.h;
-        const s = Math.max(baseHsl.s - 15, 20); // Less saturated
-        const l = Math.max(baseHsl.l - 20, 25); // Darker
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Dark neutral based on primary hue
-      main: (() => {
-        const h = baseHsl.h;
-        const s = Math.max(baseHsl.s - 70, 5); // Very desaturated
-        const l = Math.max(15, Math.min(baseHsl.l - 40, 20)); // Very dark
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Light neutral based on primary hue
-      mainAccent: (() => {
-        const h = baseHsl.h;
-        const s = Math.max(baseHsl.s - 50, 5); // Very desaturated
-        const l = Math.min(baseHsl.l + 25, 90); // Lighter
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Pure white (remains constant)
-      base: "#FFFFFF",
-      
-      // Medium neutral based on primary hue
-      secondary: (() => {
-        const h = baseHsl.h;
-        const s = Math.max(baseHsl.s - 60, 10); // Very desaturated
-        const l = Math.max(baseHsl.l - 15, 40); // Slightly darker
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Very light tint based on primary hue
-      tertiary: (() => {
-        const h = baseHsl.h;
-        const s = Math.max(baseHsl.s - 40, 5); // Desaturated
-        const l = Math.min(98, Math.max(baseHsl.l + 30, 90)); // Very light
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Light border color based on primary
-      borderLight: (() => {
-        const h = baseHsl.h;
-        const s = Math.max(baseHsl.s - 60, 5); // Very desaturated
-        const l = Math.min(baseHsl.l + 30, 90); // Lighter
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })(),
-      
-      // Dark border color based on primary
-      borderDark: (() => {
-        const h = (baseHsl.h + 5) % 360; // Slight hue shift
-        const s = Math.max(baseHsl.s - 40, 15); // Desaturated
-        const l = Math.max(baseHsl.l - 25, 25); // Darker
-        const rgb = hslToRgb(h, s, l);
-        return rgbToHex(rgb.r, rgb.g, rgb.b);
-      })()
+      primary: formattedHex
     };
+    
+    // Lighter version of primary (tint)
+    const primaryAccentRgb = hslToRgb(
+      baseHsl.h, 
+      Math.max(baseHsl.s - 10, 10), 
+      Math.min(baseHsl.l + 30, 95)
+    );
+    newTheme.primaryAccent = rgbToHex(primaryAccentRgb.r, primaryAccentRgb.g, primaryAccentRgb.b);
+    
+    // Color shift toward warmer tones
+    const primaryAltRgb = hslToRgb(
+      (baseHsl.h - 20 + 360) % 360, 
+      Math.min(baseHsl.s + 10, 100), 
+      Math.min(baseHsl.l + 5, 85)
+    );
+    newTheme.primaryAlt = rgbToHex(primaryAltRgb.r, primaryAltRgb.g, primaryAltRgb.b);
+    
+    // Darker version of primary (shade)
+    const primaryAltAccentRgb = hslToRgb(
+      baseHsl.h, 
+      Math.max(baseHsl.s - 15, 20), 
+      Math.max(baseHsl.l - 20, 25)
+    );
+    newTheme.primaryAltAccent = rgbToHex(primaryAltAccentRgb.r, primaryAltAccentRgb.g, primaryAltAccentRgb.b);
+    
+    // Dark neutral based on primary hue
+    const mainRgb = hslToRgb(
+      baseHsl.h, 
+      Math.max(baseHsl.s - 70, 5), 
+      Math.max(15, Math.min(baseHsl.l - 40, 20))
+    );
+    newTheme.main = rgbToHex(mainRgb.r, mainRgb.g, mainRgb.b);
+    
+    // Light neutral based on primary hue
+    const mainAccentRgb = hslToRgb(
+      baseHsl.h, 
+      Math.max(baseHsl.s - 50, 5), 
+      Math.min(baseHsl.l + 25, 90)
+    );
+    newTheme.mainAccent = rgbToHex(mainAccentRgb.r, mainAccentRgb.g, mainAccentRgb.b);
+    
+    // Pure white (remains constant)
+    newTheme.base = "#FFFFFF";
+    
+    // Medium neutral based on primary hue
+    const secondaryRgb = hslToRgb(
+      baseHsl.h, 
+      Math.max(baseHsl.s - 60, 10), 
+      Math.max(baseHsl.l - 15, 40)
+    );
+    newTheme.secondary = rgbToHex(secondaryRgb.r, secondaryRgb.g, secondaryRgb.b);
+    
+    // Very light tint based on primary hue
+    const tertiaryRgb = hslToRgb(
+      baseHsl.h, 
+      Math.max(baseHsl.s - 40, 5), 
+      Math.min(98, Math.max(baseHsl.l + 30, 90))
+    );
+    newTheme.tertiary = rgbToHex(tertiaryRgb.r, tertiaryRgb.g, tertiaryRgb.b);
+    
+    // Light border color based on primary
+    const borderLightRgb = hslToRgb(
+      baseHsl.h, 
+      Math.max(baseHsl.s - 60, 5), 
+      Math.min(baseHsl.l + 30, 90)
+    );
+    newTheme.borderLight = rgbToHex(borderLightRgb.r, borderLightRgb.g, borderLightRgb.b);
+    
+    // Dark border color based on primary
+    const borderDarkRgb = hslToRgb(
+      (baseHsl.h + 5) % 360, 
+      Math.max(baseHsl.s - 40, 15), 
+      Math.max(baseHsl.l - 25, 25)
+    );
+    newTheme.borderDark = rgbToHex(borderDarkRgb.r, borderDarkRgb.g, borderDarkRgb.b);
     
     return newTheme;
   };
@@ -286,42 +277,7 @@ const ThemeGenerator = () => {
     copyToClipboard(tailwindConfig, 'Tailwind');
   };
 
-  // Download theme as JSON file
-  const downloadThemeAsJSON = () => {
-    const json = JSON.stringify(theme, null, 2);
-    const blob = new Blob([json], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'theme-config.json';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  // Download theme as CSS file
-  const downloadThemeAsCSS = () => {
-    let css = ":root {\n";
-    Object.entries(theme).forEach(([name, value]) => {
-      // Convert camelCase to kebab-case
-      const kebabName = name.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
-      css += `  --color-${kebabName}: ${value};\n`;
-    });
-    css += "}";
-    
-    const blob = new Blob([css], { type: 'text/css' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'theme-variables.css';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
-  // Color contrast checker for readability
+  // Determine text color for contrast
   const getContrastYIQ = (hexcolor) => {
     const rgb = hexToRgb(hexcolor);
     if (!rgb) return 'black';
@@ -332,8 +288,8 @@ const ThemeGenerator = () => {
   return (
     <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="bg-gray-800 text-white p-6">
-        <h1 className="text-3xl font-bold">OllieWP Color Theme Generator</h1>
-        <p className="text-gray-300 mt-2">Generate a complete theme from a single color using the derived color relationships</p>
+        <h1 className="text-3xl font-bold">Theme Generator</h1>
+        <p className="text-gray-300 mt-2">Generate a complete theme from a single color</p>
       </div>
       
       <div className="p-6">
@@ -383,21 +339,6 @@ const ThemeGenerator = () => {
               {copied === 'Tailwind' ? '✓ Copied!' : 'Copy as Tailwind'}
             </button>
           </div>
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-2 mb-8">
-          <button 
-            onClick={downloadThemeAsJSON}
-            className="flex-1 px-3 py-2 border border-blue-600 text-blue-600 rounded hover:bg-blue-50 transition"
-          >
-            Download JSON
-          </button>
-          <button 
-            onClick={downloadThemeAsCSS}
-            className="flex-1 px-3 py-2 border border-green-600 text-green-600 rounded hover:bg-green-50 transition"
-          >
-            Download CSS
-          </button>
         </div>
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

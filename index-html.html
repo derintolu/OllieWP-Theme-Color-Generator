@@ -3,32 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="Theme Generator - Create a complete color palette from a single hex code">
+  <meta name="theme-color" content="#5344F4">
   <title>Theme Generator</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
+  
+  <!-- TailwindCSS -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  
+  <!-- Custom Styles -->
   <style>
     .color-swatch {
-      transition: transform 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
     .color-swatch:hover {
       transform: scale(1.02);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     #preview {
       transition: all 0.3s ease;
     }
+    .copy-button {
+      transition: background-color 0.2s;
+    }
+    .copy-button:focus {
+      outline: none;
+      ring-2 : ring-blue-500;
+    }
   </style>
 </head>
 <body class="bg-gray-50">
+  <!-- Root element for React app -->
   <div id="root" class="min-h-screen p-4"></div>
 
-  <!-- React and ReactDOM -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <!-- Loading indicator (gets hidden once React loads) -->
+  <div id="loading" class="fixed inset-0 flex items-center justify-center bg-white bg-opacity-80">
+    <div class="text-center">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-600"></div>
+      <p class="mt-2 text-gray-600">Loading Theme Generator...</p>
+    </div>
+  </div>
+
+  <!-- CDN Dependencies -->
+  <!-- React Core Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" crossorigin="anonymous"></script>
   
-  <!-- Babel for JSX -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+  <!-- Babel for JSX Transformation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js" crossorigin="anonymous"></script>
   
-  <!-- Main App Script -->
-  <script type="text/babel" src="/app-js.js"></script>
+  <!-- Main Application Script -->
+  <script type="text/babel" src="/app.js"></script>
+  
+  <!-- Hide loading indicator once app loads -->
+  <script>
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const loadingEl = document.getElementById('loading');
+        if (loadingEl) {
+          loadingEl.style.opacity = '0';
+          setTimeout(function() {
+            loadingEl.style.display = 'none';
+          }, 300);
+        }
+      }, 500);
+    });
+  </script>
 </body>
 </html>
