@@ -435,7 +435,7 @@ const ThemeGenerator = () => {
   return (
     <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
       <div className="bg-gray-800 text-white p-6">
-        <h1 className="text-3xl font-bold">Theme Generator</h1>
+        <h1 className="text-3xl font-bold">OllieWP Theme Generator</h1>
         <p className="text-gray-300 mt-2">Generate a complete theme from a single color</p>
       </div>
       
